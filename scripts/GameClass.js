@@ -96,7 +96,7 @@ var Game = /** @class */ (function () {
                         this.play(x - 1, y - 1, "place");
                     }
                     if (x > 0 && y > 0 && this.maskBoard[x - 1][y] === "") {
-                        this.play(x - 1, y - 1, "place");
+                        this.play(x - 1, y, "place");
                     }
                     if (x > 0 && this.maskBoard[x - 1][y] === "") {
                         this.play(x - 1, y, "place");
