@@ -4,6 +4,8 @@ var Game = /** @class */ (function () {
         this.width = width;
         this.minesNumb = minesNumb;
         this.isIntiate = false;
+        this.lifes = 3;
+        this.flagLeft = minesNumb;
         this.board = [];
         this.maskBoard = [];
         for (var i = 0; i < this.height; i++) {
@@ -82,8 +84,17 @@ var Game = /** @class */ (function () {
         if (typeOfAction === "place") {
             if (this.board[x][y] === "X") {
                 // Game over
-                this.maskBoard = this.board;
-                alert("Game over");
+                this.lifes--;
+                if (this.lifes <= 0) {
+                    this.maskBoard = this.board;
+                    alert("Game over");
+                }
+                else {
+                    alert("You lost a life");
+                    this.maskBoard[x][y] = "X";
+                }
+            }
+            else if (this.maskBoard[x][y] === "F" || this.maskBoard[x][y] === "X") {
             }
             else {
                 // Check for the number of mines around
@@ -152,9 +163,11 @@ var Game = /** @class */ (function () {
             // Flag the cell if the mask is empty
             if (this.maskBoard[x][y] === "") {
                 this.maskBoard[x][y] = "F";
+                this.flagLeft--;
             }
             else if (this.maskBoard[x][y] === "F") {
                 this.maskBoard[x][y] = "";
+                this.flagLeft++;
             }
         }
     };

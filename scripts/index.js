@@ -52,9 +52,8 @@ newGame.addEventListener("click", function (e) {
 });
 var colors = ["blue", "green", "red", "purple", "orange", "yellow", "pink", "black"];
 var renderGame = function (game) {
-    console.log(cells);
-    console.log(game.maskBoard);
-    console.log(game.board);
+    var flagLeft = document.getElementById("mines-left");
+    flagLeft.innerHTML = String(game.flagLeft) + "F";
     for (var i = 0; i < game.height; i++) {
         for (var j = 0; j < game.width; j++) {
             var cell = cells[i * game.width + j];

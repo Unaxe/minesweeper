@@ -31,13 +31,22 @@ script {
   align-items: center;
 }
 
-#board {
+#board-container {
   margin-top: 20px;
   border-radius: 16px;
   background-color: #dcdcdc;
   margin: 50px;
   max-width: 90vw;
   overflow-x: scroll;
+}
+
+#board-infos {
+  margin : 20px; 
+  margin-bottom: 0;
+}
+
+#mines-left {
+  color: red;
 }
 
 h1 {

@@ -56,9 +56,8 @@ newGame!.addEventListener("click", (e) => {
 
 const colors = ["blue", "green", "red", "purple", "orange", "yellow", "pink", "black"];
 const renderGame = (game: Game) => {
-  console.log(cells)
-  console.log(game.maskBoard)
-  console.log(game.board)
+  const flagLeft = document.getElementById("mines-left");
+  flagLeft!.innerHTML = String(game.flagLeft) + "F";
   for(let i =0; i< game.height; i++) {
     for(let j =0; j< game.width; j++) {
       const cell = cells[i*game.width + j];

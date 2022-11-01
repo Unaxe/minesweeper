@@ -1,41 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script>var exports = {};</script>
-  <script src="./scripts/index.js" type="module" defer></script>
-  <link rel="stylesheet" href="./styles.css">
-  <title>Minesweeper</title>
-</head>
-<body>
-  <div class="container">
-    <header>
-      <h1>Minesweeper</h1>
-      <div class="actions-container">
-        <button id="new-game">New Game</button>
-        <div class="score">0</div>
-        <button id="reset-game">Reset Game</button>
-      </div>
-      <div class="parameters">
-        <div class="parameter">
-          <label for="rows">Rows</label>
-          <input type="number" id="rows" value="10" min="1" max="20">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script>
+      var exports = {};
+    </script>
+    <script src="./scripts/index.js" type="module" defer></script>
+    <link rel="stylesheet" href="./styles.css" />
+    <title>Minesweeper</title>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>Minesweeper</h1>
+        <div class="actions-container">
+          <button id="new-game">New Game</button>
+          <div class="score">0</div>
+          <button id="reset-game">Reset Game</button>
         </div>
-        <div class="parameter">
-          <label for="columns">Columns</label>
-          <input type="number" id="columns" value="10" min="1" max="20">
+        <div class="parameters">
+          <div class="parameter">
+            <label for="rows">Rows</label>
+            <input type="number" id="rows" value="10" min="1" max="20" />
+          </div>
+          <div class="parameter">
+            <label for="columns">Columns</label>
+            <input type="number" id="columns" value="10" min="1" max="20" />
+          </div>
+          <div class="parameter">
+            <label for="mines">Mines</label>
+            <input type="number" id="mines" value="3" min="1" max="100" />
+          </div>
         </div>
-        <div class="parameter">
-          <label for="mines">Mines</label>
-          <input type="number" id="mines" value="3" min="1" max="100">
+      </header>
+      <main>
+        <div id="board-container">
+          <div id="board-infos">
+            <p id="mines-left"></p>
+          </div>
+          <div id="board"></div>
         </div>
-      </div>
-    </header>
-    <main>
-      <div id="board"></div>
-    </main>
-  </div>
-</body>
+      </main>
+    </div>
+  </body>
 </html>
+

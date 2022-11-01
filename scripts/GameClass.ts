@@ -5,12 +5,16 @@ export class Game {
   isIntiate: boolean;
   board: Array<Array<String>>;
   maskBoard: Array<Array<String>>;
-
+  lifes:number
+  flagLeft:number
+  
   constructor(height: number, width: number, minesNumb: number) {
     this.height = height;
     this.width = width;
     this.minesNumb = minesNumb;
     this.isIntiate = false;
+    this.lifes = 3;
+    this.flagLeft = minesNumb;
     this.board = [];
     this.maskBoard = [];
     for (let i = 0; i < this.height; i++) {
@@ -95,8 +99,16 @@ export class Game {
     if (typeOfAction === "place") {
       if (this.board[x][y] === "X") {
         // Game over
-        this.maskBoard = this.board;
-        alert("Game over");
+        this.lifes--;
+        if(this.lifes <= 0){
+          this.maskBoard = this.board;
+          alert("Game over");
+        }else {
+          alert("You lost a life");
+          this.maskBoard[x][y] = "X";
+        }
+      } else if(this.maskBoard[x][y]=== "F" || this.maskBoard[x][y] === "X") {
+
       } else {
         // Check for the number of mines around
         const minesAround = this.board[x][y];
@@ -169,8 +181,10 @@ export class Game {
       // Flag the cell if the mask is empty
       if (this.maskBoard[x][y] === "") {
         this.maskBoard[x][y] = "F";
+        this.flagLeft--;
       } else if (this.maskBoard[x][y] === "F") {
         this.maskBoard[x][y] = "";
+        this.flagLeft++;
       }
     }
   }
