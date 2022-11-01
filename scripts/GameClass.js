@@ -92,6 +92,9 @@ var Game = /** @class */ (function () {
                 if (minesAround === "0") {
                     this.maskBoard[x][y] = "0";
                     // Check the adjacent cells
+                    if (x > 0 && y > 0 && this.maskBoard[x - 1][y - 1] === "") {
+                        this.play(x - 1, y - 1, "place");
+                    }
                     if (x > 0 && y > 0 && this.maskBoard[x - 1][y] === "") {
                         this.play(x - 1, y - 1, "place");
                     }
