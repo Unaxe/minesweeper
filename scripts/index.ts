@@ -58,6 +58,8 @@ const colors = ["blue", "green", "red", "purple", "orange", "yellow", "pink", "b
 const renderGame = (game: Game) => {
   const flagLeft = document.getElementById("mines-left");
   flagLeft!.innerHTML = String(game.flagLeft) + "F";
+  const lifesLeft = document.getElementById("lifes");
+  lifesLeft!.innerHTML = String(game.lifes) + "❤";
   for(let i =0; i< game.height; i++) {
     for(let j =0; j< game.width; j++) {
       const cell = cells[i*game.width + j];
