@@ -25,8 +25,17 @@ var Game = /** @class */ (function () {
             // x and y are the coordinates of the first click
             var xMine = Math.floor(Math.random() * this.width);
             var yMine = Math.floor(Math.random() * this.height);
-            if ((xMine < x - 1 || xMine > x + 1) &&
-                (yMine < y - 1 || yMine > y + 1) &&
+            if (
+            // Check if the mine is not one of the adjacent cells
+            (xMine !== x - 1 || yMine !== y - 1) &&
+                (xMine !== x - 1 || yMine !== y) &&
+                (xMine !== x - 1 || yMine !== y + 1) &&
+                (xMine !== x || yMine !== y - 1) &&
+                (xMine !== x || yMine !== y + 1) &&
+                (xMine !== x + 1 || yMine !== y - 1) &&
+                (xMine !== x + 1 || yMine !== y) &&
+                (xMine !== x + 1 || yMine !== y + 1) &&
+                (xMine !== x || yMine !== y) &&
                 this.board[xMine][yMine] !== "X") {
                 this.board[xMine][yMine] = "X";
                 i--;
@@ -75,87 +84,96 @@ var Game = /** @class */ (function () {
             }
         }
     };
+    Game.prototype.isOver = function () {
+        var isOver = true;
+        for (var i = 0; i < this.height; i++) {
+            for (var j = 0; j < this.width; j++) {
+                if (this.board[i][j] !== "X" && this.maskBoard[i][j] === "") {
+                    isOver = false;
+                }
+            }
+            if (!isOver) {
+                break;
+            }
+        }
+        return isOver;
+    };
+    Game.prototype.place = function (x, y) {
+        if (this.board[x][y] === "X") {
+            // Game over
+            this.lifes--;
+            if (this.lifes <= 0) {
+                this.maskBoard = this.board;
+                alert("Game over");
+            }
+            else {
+                alert("You lost a life");
+                this.maskBoard[x][y] = "X";
+            }
+        }
+        else if (this.maskBoard[x][y] === "F" || this.maskBoard[x][y] === "X") {
+        }
+        else {
+            // Check for the number of mines around
+            var minesAround = this.board[x][y];
+            // If 0, check the adjacent cells
+            if (minesAround === "0") {
+                this.maskBoard[x][y] = "0";
+                // Check the adjacent cells
+                if (x > 0 && y > 0 && this.maskBoard[x - 1][y - 1] === "") {
+                    this.place(x - 1, y - 1);
+                }
+                if (x > 0 && y > 0 && this.maskBoard[x - 1][y] === "") {
+                    this.place(x - 1, y);
+                }
+                if (x > 0 && this.maskBoard[x - 1][y] === "") {
+                    this.place(x - 1, y);
+                }
+                if (x > 0 &&
+                    y < this.height - 1 &&
+                    this.maskBoard[x - 1][y + 1] === "") {
+                    this.place(x - 1, y + 1);
+                }
+                if (y > 0 && this.maskBoard[x][y - 1] === "") {
+                    this.place(x, y - 1);
+                }
+                if (y < this.height - 1 && this.maskBoard[x][y + 1] === "") {
+                    this.place(x, y + 1);
+                }
+                if (x < this.width - 1 &&
+                    y > 0 &&
+                    this.maskBoard[x + 1][y - 1] === "") {
+                    this.place(x + 1, y - 1);
+                }
+                if (x < this.width - 1 && this.maskBoard[x + 1][y] === "") {
+                    this.place(x + 1, y);
+                }
+                if (x < this.width - 1 &&
+                    y < this.height - 1 &&
+                    this.maskBoard[x + 1][y + 1] === "") {
+                    this.place(x + 1, y + 1);
+                }
+            }
+            else {
+                // Update the maskBoard
+                this.maskBoard[x][y] = minesAround;
+            }
+        }
+    };
     Game.prototype.play = function (x, y, typeOfAction) {
         if (!this.isIntiate) {
             this.initiate(x, y);
             console.log("Game initiated");
         }
+        if (this.isOver()) {
+            return;
+        }
         if (typeOfAction === "place") {
-            if (this.board[x][y] === "X") {
-                // Game over
-                this.lifes--;
-                if (this.lifes <= 0) {
-                    this.maskBoard = this.board;
-                    alert("Game over");
-                }
-                else {
-                    alert("You lost a life");
-                    this.maskBoard[x][y] = "X";
-                }
-            }
-            else if (this.maskBoard[x][y] === "F" || this.maskBoard[x][y] === "X") {
-            }
-            else {
-                // Check for the number of mines around
-                var minesAround = this.board[x][y];
-                // If 0, check the adjacent cells
-                if (minesAround === "0") {
-                    this.maskBoard[x][y] = "0";
-                    // Check the adjacent cells
-                    if (x > 0 && y > 0 && this.maskBoard[x - 1][y - 1] === "") {
-                        this.play(x - 1, y - 1, "place");
-                    }
-                    if (x > 0 && y > 0 && this.maskBoard[x - 1][y] === "") {
-                        this.play(x - 1, y, "place");
-                    }
-                    if (x > 0 && this.maskBoard[x - 1][y] === "") {
-                        this.play(x - 1, y, "place");
-                    }
-                    if (x > 0 &&
-                        y < this.height - 1 &&
-                        this.maskBoard[x - 1][y + 1] === "") {
-                        this.play(x - 1, y + 1, "place");
-                    }
-                    if (y > 0 && this.maskBoard[x][y - 1] === "") {
-                        this.play(x, y - 1, "place");
-                    }
-                    if (y < this.height - 1 && this.maskBoard[x][y + 1] === "") {
-                        this.play(x, y + 1, "place");
-                    }
-                    if (x < this.width - 1 &&
-                        y > 0 &&
-                        this.maskBoard[x + 1][y - 1] === "") {
-                        this.play(x + 1, y - 1, "place");
-                    }
-                    if (x < this.width - 1 && this.maskBoard[x + 1][y] === "") {
-                        this.play(x + 1, y, "place");
-                    }
-                    if (x < this.width - 1 &&
-                        y < this.height - 1 &&
-                        this.maskBoard[x + 1][y + 1] === "") {
-                        this.play(x + 1, y + 1, "place");
-                    }
-                }
-                else {
-                    // Update the maskBoard
-                    this.maskBoard[x][y] = minesAround;
-                }
-                // Check if the game is over
-                var isOver = true;
-                for (var i = 0; i < this.height; i++) {
-                    for (var j = 0; j < this.width; j++) {
-                        if (this.board[i][j] !== "X" && this.maskBoard[i][j] === "") {
-                            isOver = false;
-                        }
-                    }
-                    if (!isOver) {
-                        break;
-                    }
-                }
-                if (isOver) {
-                    this.maskBoard = this.board;
-                    alert("You won");
-                }
+            this.place(x, y);
+            // Check if the game is over
+            if (this.isOver()) {
+                alert("You won");
+                this.maskBoard = this.board;
             }
         }
         if (typeOfAction === "flag") {
