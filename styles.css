@@ -43,10 +43,18 @@ script {
 #board-infos {
   margin : 20px; 
   margin-bottom: 0;
+  height: fit-content;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
 #mines-left {
   color: red;
+}
+
+#lifes {
+  color: red
 }
 
 h1 {
