@@ -25,12 +25,11 @@ var Game = /** @class */ (function () {
             // x and y are the coordinates of the first click
             var xMine = Math.floor(Math.random() * this.width);
             var yMine = Math.floor(Math.random() * this.height);
-            if (xMine !== x && yMine !== y) {
-                if (this.board[xMine][yMine] !== "X") {
-                    this.board[xMine][yMine] = "X";
-                    i--;
-                    console.log("Mine placed at " + xMine + " " + yMine, i);
-                }
+            if ((xMine < x - 1 || xMine > x + 1) &&
+                (yMine < y - 1 || yMine > y + 1) &&
+                this.board[xMine][yMine] !== "X") {
+                this.board[xMine][yMine] = "X";
+                i--;
             }
         }
         console.log(this.board);

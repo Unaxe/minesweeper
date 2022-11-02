@@ -5,9 +5,9 @@ export class Game {
   isIntiate: boolean;
   board: Array<Array<String>>;
   maskBoard: Array<Array<String>>;
-  lifes:number
-  flagLeft:number
-  
+  lifes: number;
+  flagLeft: number;
+
   constructor(height: number, width: number, minesNumb: number) {
     this.height = height;
     this.width = width;
@@ -34,12 +34,13 @@ export class Game {
       // x and y are the coordinates of the first click
       let xMine = Math.floor(Math.random() * this.width);
       let yMine = Math.floor(Math.random() * this.height);
-      if (xMine !== x && yMine !== y) {
-        if (this.board[xMine][yMine] !== "X") {
-          this.board[xMine][yMine] = "X";
-          i--;
-          console.log("Mine placed at " + xMine + " " + yMine, i);
-        }
+      if (
+        (xMine < x - 1 || xMine > x + 1) &&
+        (yMine < y - 1 || yMine > y + 1) &&
+        this.board[xMine][yMine] !== "X"
+      ) {
+        this.board[xMine][yMine] = "X";
+        i--;
       }
     }
 
@@ -100,15 +101,14 @@ export class Game {
       if (this.board[x][y] === "X") {
         // Game over
         this.lifes--;
-        if(this.lifes <= 0){
+        if (this.lifes <= 0) {
           this.maskBoard = this.board;
           alert("Game over");
-        }else {
+        } else {
           alert("You lost a life");
           this.maskBoard[x][y] = "X";
         }
-      } else if(this.maskBoard[x][y]=== "F" || this.maskBoard[x][y] === "X") {
-
+      } else if (this.maskBoard[x][y] === "F" || this.maskBoard[x][y] === "X") {
       } else {
         // Check for the number of mines around
         const minesAround = this.board[x][y];
